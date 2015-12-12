@@ -1,0 +1,20 @@
+{% extends 'base.html.j2' %}
+
+{% block head %}{{ pagedown.include_pagedown() }}{% endblock %}
+
+{% block content %}
+    <form action="" method="post" name="login">
+        {{ form.hidden_tag() }}
+        <p>
+            Title {{ form.title(size=30) }}
+            {% for error in form.title.errors %}
+                <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </p>
+        {% for error in form.post.errors %}
+            <div style="color: red;">{{ error }}</div>
+        {% endfor %}
+        {{ form.post(rows=15,cols=75) }}
+        <p><button type="submit">Submit</button></p>
+    </form>
+{% endblock %}

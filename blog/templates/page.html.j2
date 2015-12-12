@@ -1,0 +1,21 @@
+{% extends 'base.html.j2' %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+    Index
+    {% if posts %}
+        <p><strong>Posts:</strong></p>
+        <ul>
+        {% for post in posts.items %}
+            <li><a href="{{ url_for('post', slug=post.slug)}}">{{ post.title }}</a></li>
+        {% endfor %}
+        </ul>
+        {% if posts.has_prev %}
+            <a href="{{ url_for('page', id=posts.prev_num )}}">Next Posts</a>
+        {% endif %}
+        {% if posts.has_next %}
+            <a href="{{ url_for('page', id=posts.next_num )}}">Older Posts</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

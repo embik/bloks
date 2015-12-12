@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+        {% if title %}
+            {{ title }} | {{ config ['BLOG_TITLE'] }}
+        {% else %}
+            {{ config['BLOG_TITLE'] }}
+        {% endif %}
+        </title>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        {% if g.user %}
+            <div style="float: right;"><a href="{{ url_for('new_post') }}">New Post</a> | {{ g.user.nickname }}</div>
+        {% endif %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <span>{{ config['BLOG_TITLE'] }}</span> - <a href="{{ url_for('page') }}">Index</a>
+        <hr>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

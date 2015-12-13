@@ -13,6 +13,11 @@ if 'BLOG_SECRET_KEY' in os.environ:
 else:
     SECRET_KEY = base64.b64encode(os.urandom(24))
 
+if 'BLOG_LOG_PATH' in os.environ:
+    LOG_PATH = os.environ['BLOG_LOG_PATH']
+else:
+    LOG_PATH = os.path.join(basedir, 'tmp', 'blog.log')
+
 BLOG_TITLE = 'embik\'s blog'
 BLOG_DESCRIPTION = 'no text'
 POSTS_PER_PAGE = 5

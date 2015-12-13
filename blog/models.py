@@ -36,9 +36,20 @@ class Post(db.Model):
     content = db.Column(db.Text)
     timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
 
     def __repr__(self):
         return '<Post %r>' % (self.title)
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), unique=True)
+    image_url = db.Column(db.String(256))
+    posts = db.relationship('Post', backref='category', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Category %r>' % (self.name)
 
 
 class Hash(db.Model):

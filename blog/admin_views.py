@@ -38,11 +38,12 @@ def edit_post(id):
         db.session.add(post)
         db.session.commit()
 
-        flash('Post "%s" has been updated.' % post.title)
+        flash('Post <a href="%s">"%s"</a> has been updated.' % (url_for('post',
+                                                                slug=post.slug), post.title))
         return redirect((url_for('edit_post', id=post.id)))
     else:
         print('test')
         form.post.data = post.content
         form.title.data = post.title
 
-        return render_template('admin/edit_post.html.j2', title='Edit Post',    form=form)
+        return render_template('admin/edit_post.html.j2', title='Edit Post', form=form)

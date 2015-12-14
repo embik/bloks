@@ -4,7 +4,7 @@ from blog import app
 
 @app.errorhandler(401)
 def unauthorized(e):
-    return '401 error', 401
+    return render_template('errors/401.html.j2', title='Unauthorized'), 401
 
 
 @app.errorhandler(403)

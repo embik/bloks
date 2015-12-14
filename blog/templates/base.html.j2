@@ -13,8 +13,8 @@
     <body>
         {% if g.user.is_authenticated %}
             <div style="float: right;">{{ g.user.nickname }} {% if g.user.is_admin %}(Admin){% endif %}
-             | 
-            <a href="{{ url_for('new_post') }}">New Post</a> | <a href="{{ url_for('logout') }}">Logout</a></div>
+             |
+            <a href="{{ url_for('new_post') }}">New Post</a> | <a href="{{ url_for('admin_dashboard' )}}">Dashboard</a> | <a href="{{ url_for('logout') }}">Logout</a></div>
         {% endif %}
         {% with messages = get_flashed_messages() %}
             {% if messages %}

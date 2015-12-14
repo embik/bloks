@@ -1,0 +1,107 @@
+{% extends 'base.html.j2' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <div style="width: 65%; display: inline-block;">
+        <h2>Posts</h2>
+        {% if posts %}
+            <a href="{{ url_for('new_post') }}">New Post</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Published</th>
+                        <th>Author</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for post in posts.items %}
+                    <tr>
+                        <td><a href="{{ url_for('post', slug=post.slug)}}">{{ post.title }}</a></td>
+                        <td>{{ post.timestamp }}</td>
+                        <td>{{ post.author.nickname }}</td>
+                        <td>
+                        {% if g.user.is_admin or post.author == g.user %}
+                            <a href="{{ url_for('edit_post', id=post.id)}}">Edit</a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if posts.has_prev %}
+                <a href="{{ url_for('admin_dashboard', id=posts.prev_num )}}">Next Posts</a>
+            {% endif %}
+            {% if posts.has_next %}
+                <a href="{{ url_for('admin_dashboard', id=posts.next_num )}}">Older Posts</a>
+            {% endif %}
+        {% else %}
+            <p>No posts found! <a href="{{ url_for('new_post') }}">Write your first post!</a></p>
+        {% endif %}
+    </div>
+    <div style="width: 32.5%; display: inline-block; float: right;">
+        <div>
+            <h2>Users</h2>
+            <a href="{{ url_for('new_user') }}">New User</a>
+            {% if users %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nickname</th>
+                            <th>E-Mail</th>
+                            <th>Last Seen</th>
+                            <th>is Admin</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.nickname }}</td>
+                            <td>$E-Mail</td>
+                            <td>$Last-Seen</td>
+                            <td>{{ user.is_admin }}</td>
+                            <td>
+                            {% if g.user.is_admin %}
+                                <a href="{{ url_for('edit_user', id=user.id)}}">Edit</a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+        <hr>
+        <div>
+            <h2>Categories</h2>
+            <a href="{{ url_for('new_category') }}">New Category</a>
+            {% if categories %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            <td><a href="{{ category.image_url }}">Click</a></td>
+                            <td>
+                            {% if g.user.is_admin %}
+                                <a href="{{ url_for('edit_category' )}}">Edit</a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

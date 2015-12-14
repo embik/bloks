@@ -15,7 +15,6 @@ def create_slug(title, delim='-'):
         if token:
             result.append(token.decode('utf-8'))
 
-    print(result)
     while check_slug(str(delim.join(result))) is False:
         try:
             result[len(result) - 1] = str(int(result[len(result) - 1]) + 1)

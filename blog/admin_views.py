@@ -1,10 +1,47 @@
 from blog import app, db
 from blog.forms import PostForm
-from blog.models import Post
+from blog.models import Post, User, Category
 from blog.utils import create_slug
 from flask import render_template, flash, url_for, redirect, abort
 from flask.ext.login import login_required, current_user
 from datetime import datetime
+from sqlalchemy import desc
+
+
+@app.route('/admin/dashboard')
+@app.route('/admin/dashboard/<int:id>')
+@login_required
+def admin_dashboard(id=1):
+    posts = Post.query.order_by(desc(Post.id)).\
+        paginate(page=id, per_page=app.config['ADMIN_POSTS_PER_PAGE'])
+    users = User.query.all()
+    categories = Category.query.all()
+    return render_template('admin/dashboard.html.j2', posts=posts, users=users,
+                           categories=categories, title='Dashboard')
+
+
+@app.route('/admin/users/new', methods=['POST', 'GET'])
+@login_required
+def new_user():
+    return ''
+
+
+@app.route('/admin/users/edit/<int:id>', methods=['POST', 'GET'])
+@login_required
+def edit_user(id):
+    return ''
+
+
+@app.route('/admin/categories/new', methods=['POST', 'GET'])
+@login_required
+def new_category():
+    return ''
+
+
+@app.route('/admin/categories/edit/<int:id>', methods=['POST', 'GET'])
+@login_required
+def edit_category(id):
+    return ''
 
 
 @app.route('/admin/posts/new', methods=['POST', 'GET'])
@@ -26,8 +63,11 @@ def new_post():
 @app.route('/admin/posts/edit/<int:id>', methods=['POST', 'GET'])
 @login_required
 def edit_post(id):
-    form = PostForm()
     post = Post.query.filter_by(id=id).first()
+    if not current_user.is_admin and current_user != post.author:
+        abort(403)
+
+    form = PostForm()
 
     if post is None:
         abort(404)

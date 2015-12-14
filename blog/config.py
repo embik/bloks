@@ -21,3 +21,5 @@ else:
 BLOG_TITLE = 'embik\'s blog'
 BLOG_DESCRIPTION = 'no text'
 POSTS_PER_PAGE = 5
+
+ADMIN_POSTS_PER_PAGE = 20

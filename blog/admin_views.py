@@ -51,6 +51,12 @@ def edit_user(id):
 
     form = UserForm()
     if form.validate_on_submit():
+        # Do not allow privilege removal for the user's own account
+        if current_user == user and user.is_admin is True and form.is_admin.data is False:
+            flash('Updating user %s failed. You cannot remove administrative\
+                   privileges from yourself!' % user.nickname)
+            return redirect(url_for('admin_dashboard'))
+
         if len(form.password.data) > 0:
             h = Hash.query.filter_by(user_id=user.id).first()
             h.passwd_hash = create_hash(form.password.data)

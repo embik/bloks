@@ -24,3 +24,7 @@ class UserForm(Form):
     nickname = StringField('nickname', validators=[DataRequired()])
     password = PasswordField('password')
     is_admin = BooleanField('is_admin', default=False)
+
+
+class RemovalForm(Form):
+    is_confirmed = BooleanField('is_confirmed', default=False)

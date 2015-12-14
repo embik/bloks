@@ -1,0 +1,9 @@
+{% extends 'base.html.j2' %}
+
+{% block content %}
+    <form action="" method="post" name="removal">
+        <p>Are you sure you want to delete {{ obj }}? {{ form.is_confirmed }}</p>
+        {% if msg %}<p>{{ msg }}</p>{% endif %}
+        <p><button type="submit">Confirm</button></p>
+    </form>
+{% endblock %}

@@ -1,5 +1,5 @@
 from blog import app, db
-from blog.forms import PostForm, UserForm, CategoryForm
+from blog.forms import PostForm, UserForm, CategoryForm, RemovalForm
 from blog.models import Post, User, Category, Hash
 from blog.utils import create_slug
 from blog.auth import create_hash, admin_required
@@ -76,6 +76,33 @@ def edit_user(id):
         return render_template('admin/user.html.j2', title='Edit User', form=form)
 
 
+@app.route('/admin/users/delete/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def delete_user(id):
+    user = User.query.filter_by(id=id).first()
+    if user is None:
+        abort(404)
+    if current_user == user:
+        flash('Deleting user %s failed. You cannot remove your own user account!'
+              % user.nickname)
+        return redirect(url_for('admin_dashboard'))
+
+    form = RemovalForm()
+    if form.is_confirmed.data is True:
+        Post.query.filter_by(user_id=id).delete()
+        User.query.filter_by(id=id).delete()
+        Hash.query.filter_by(user_id=id).delete()
+        db.session.commit()
+
+        flash('User %s has been deleted!' % user.nickname)
+        return redirect(url_for('admin_dashboard'))
+    else:
+        msg = 'Warning: This will also remove all posts written by %s!' % user.nickname
+        return render_template('admin/delete.html.j2', title='Delete User',
+                               obj=user.nickname, form=form, msg=msg)
+
+
 @app.route('/admin/categories/new', methods=['POST', 'GET'])
 @login_required
 @admin_required
@@ -115,6 +142,30 @@ def edit_category(id):
         form.image_url.data = category.image_url
         return render_template('admin/category.html.j2', title='Edit Category',
                                form=form)
+
+
+@app.route('/admin/categories/delete/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def delete_category(id):
+    category = Category.query.filter_by(id=id).first()
+    if category is None:
+        abort(404)
+
+    form = RemovalForm()
+    if form.is_confirmed.data is True:
+        posts = Post.query.filter_by(category_id=id).all()
+        for post in posts:
+            post.category_id = 0
+            db.session.add(post)
+        Category.query.filter_by(id=id).delete()
+        db.session.commit()
+        flash('Category %s has been deleted!' % category.name)
+        return redirect(url_for('admin_dashboard'))
+    else:
+        msg = 'Warning: Posts will be marked as uncategorized'
+        return render_template('admin/delete.html.j2', title='Delete Category',
+                               obj=category.name, msg=msg, form=form)
 
 
 @app.route('/admin/posts/new', methods=['POST', 'GET'])
@@ -157,3 +208,23 @@ def edit_post(id):
         form.title.data = post.title
 
         return render_template('admin/post.html.j2', title='Edit Post', form=form)
+
+
+@app.route('/admin/posts/delete/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def delete_post(id):
+    post = Post.query.filter_by(id=id).first()
+    if post is None:
+        abort(404)
+
+    form = RemovalForm()
+    if form.is_confirmed.data is True:
+        Post.query.filter_by(id=id).delete()
+        db.session.commit()
+
+        flash('Post "%s" has been removed!' % post.title)
+        return redirect(url_for('admin_dashboard'))
+    else:
+        return render_template('admin/delete.html.j2', title='Delete Post',
+                               obj=post.title, form=form)

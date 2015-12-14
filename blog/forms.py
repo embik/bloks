@@ -13,3 +13,14 @@ class LoginForm(Form):
 class PostForm(Form):
     title = StringField('title', validators=[DataRequired()])
     post = PageDownField('post', validators=[DataRequired()])
+
+
+class CategoryForm(Form):
+    name = StringField('name', validators=[DataRequired()])
+    image_url = StringField('image_url')
+
+
+class UserForm(Form):
+    nickname = StringField('nickname', validators=[DataRequired()])
+    password = PasswordField('password')
+    is_admin = BooleanField('is_admin', default=False)

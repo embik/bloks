@@ -2,7 +2,12 @@
 
 {% block content %}
     <h1>{{ post.title }}</h1>
-    <span>{{ post.timestamp }}</span>
+    <span>
+        published by <strong>{{ post.author.nickname }}</strong> on <strong>{{ post.timestamp }}</strong>
+        {% if post.category %}
+            in <strong>{{ post.category.name }}</strong>
+        {% endif %}
+    </span>
     <div>
         {{ render_markdown(post.content) }}
     </div>

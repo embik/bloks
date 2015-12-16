@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from flask.ext.pagedown.fields import PageDownField
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, SelectField
 from wtforms.validators import DataRequired
 
 
@@ -13,6 +13,7 @@ class LoginForm(Form):
 class PostForm(Form):
     title = StringField('title', validators=[DataRequired()])
     post = PageDownField('post', validators=[DataRequired()])
+    category = SelectField('category', coerce=int)
 
 
 class CategoryForm(Form):

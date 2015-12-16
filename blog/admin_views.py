@@ -172,9 +172,12 @@ def delete_category(id):
 @login_required
 def new_post():
     form = PostForm()
+    form.category.choices = [(0, 'Uncategorized')] + [(c.id, c.name)
+                                                      for c in Category.query.all()]
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=form.post.data, timestamp=datetime.utcnow(),
-                    slug=create_slug(form.title.data), user_id=current_user.id)
+                    slug=create_slug(form.title.data), user_id=current_user.id,
+                    category_id=form.category.data)
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live! <a href="%s">Click here</a>'
@@ -194,9 +197,12 @@ def edit_post(id):
         abort(403)
 
     form = PostForm()
+    form.category.choices = [(0, 'Uncategorized')] + [(c.id, c.name)
+                                                      for c in Category.query.all()]
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.post.data
+        post.category_id = form.category.data
         db.session.add(post)
         db.session.commit()
 
@@ -206,7 +212,7 @@ def edit_post(id):
     else:
         form.post.data = post.content
         form.title.data = post.title
-
+        form.category.default = post.category_id
         return render_template('admin/post.html.j2', title='Edit Post', form=form)
 
 

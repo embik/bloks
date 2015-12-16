@@ -212,7 +212,7 @@ def edit_post(id):
     else:
         form.post.data = post.content
         form.title.data = post.title
-        form.category.default = post.category_id
+        form.category.data = post.category_id
         return render_template('admin/post.html.j2', title='Edit Post', form=form)
 
 

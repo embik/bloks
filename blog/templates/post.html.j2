@@ -3,7 +3,7 @@
 {% block content %}
     <h1>{{ post.title }}</h1>
     <span>
-        published by <strong>{{ post.author.nickname }}</strong> on <strong>{{ post.timestamp }}</strong>
+        published by <strong>{{ post.author.nickname }}</strong> on <strong>{{ post.timestamp.strftime('%B %d, %Y') }}</strong>
         {% if post.category %}
             in <strong>{{ post.category.name }}</strong>
         {% endif %}

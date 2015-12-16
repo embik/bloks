@@ -10,8 +10,9 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Published</th>
                         <th>Author</th>
+                        <th>Category</th>
+                        <th>Published</th>
                         <th>Options</th>
                     </tr>
                 </thead>
@@ -19,8 +20,9 @@
                 {% for post in posts.items %}
                     <tr>
                         <td><a href="{{ url_for('post', slug=post.slug)}}">{{ post.title }}</a></td>
-                        <td>{{ post.timestamp }}</td>
                         <td>{{ post.author.nickname }}</td>
+                        <td>{{ post.category.name }}</td>
+                        <td>{{ post.timestamp.strftime('%B %d, %Y %H:%M') }}</td>
                         <td>
                         {% if g.user.is_admin or post.author == g.user %}
                             <a href="{{ url_for('edit_post', id=post.id)}}">Edit</a>

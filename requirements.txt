@@ -2,6 +2,7 @@ alembic==0.8.3
 Flask==0.10.1
 Flask-Login==0.3.2
 Flask-Migrate==1.6.0
+Flask-PageDown==0.2.1
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.1
 Flask-WTF==0.12

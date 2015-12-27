@@ -1,3 +1,4 @@
+import os
 import logging
 from logging import Formatter
 from logging.handlers import RotatingFileHandler
@@ -35,6 +36,7 @@ lm.init_app(app)
 
 from blog import utils
 app.jinja_env.globals.update(render_markdown=utils.render_markdown)
+app.jinja_env.globals.update(join=os.path.join)
 
 from blog import views, admin_views, errors, models
 __all__ = ['views', 'admin_views', 'errors', 'models', ]

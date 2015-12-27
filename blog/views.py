@@ -1,7 +1,8 @@
 from blog import app, lm, auth
 from blog.forms import LoginForm
 from blog.models import Post, User
-from flask import g, render_template, redirect, session, url_for, flash, abort
+from blog.utils import render_theme_template
+from flask import g, redirect, session, url_for, flash, abort
 from flask.ext.login import current_user, login_required, logout_user
 from sqlalchemy import desc
 
@@ -24,7 +25,7 @@ def page(id=1):
         paginate(page=id, per_page=app.config['POSTS_PER_PAGE'])
     if posts:
         title = 'Page %d' % id if id > 1 else None
-        return render_template('page.html.j2', posts=posts, title=title)
+        return render_theme_template('page.html.j2', posts=posts, title=title)
     else:
         abort(404)
 
@@ -33,7 +34,7 @@ def page(id=1):
 def post(slug):
     post = Post.query.filter_by(slug=slug).first()
     if post:
-        return render_template('post.html.j2', title=post.title, post=post)
+        return render_theme_template('post.html.j2', title=post.title, post=post)
     else:
         abort(404)
 
@@ -48,7 +49,7 @@ def login():
         session['remember_me'] = form.remember_me.data
         return auth.try_login(form.username.data, form.password.data)
 
-    return render_template('login.html.j2', form=form)
+    return render_theme_template('login.html.j2', form=form)
 
 
 @app.route('/logout')

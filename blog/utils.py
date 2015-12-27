@@ -1,8 +1,10 @@
+import os
 import re
 import markdown
-from unicodedata import normalize
+from blog import app
 from blog.models import Post
-from flask import Markup
+from unicodedata import normalize
+from flask import Markup, render_template
 
 REGEX = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -33,3 +35,11 @@ def check_slug(slug):
 
 def render_markdown(content):
     return Markup(markdown.markdown(content))
+
+
+def render_theme_template(template_file, **context):
+    if 'BLOG_THEME' in app.config:
+        return render_template(os.path.join(app.config['BLOG_THEME'], template_file),
+                               **context)
+    else:
+        return render_template(os.path.join('default', template_file), **context)

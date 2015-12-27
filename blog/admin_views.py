@@ -1,9 +1,9 @@
 from blog import app, db
 from blog.forms import PostForm, UserForm, CategoryForm, RemovalForm
 from blog.models import Post, User, Category, Hash
-from blog.utils import create_slug
+from blog.utils import create_slug, render_theme_template
 from blog.auth import create_hash, admin_required
-from flask import render_template, flash, url_for, redirect, abort
+from flask import flash, url_for, redirect, abort
 from flask.ext.login import login_required, current_user
 from datetime import datetime
 from sqlalchemy import desc
@@ -17,8 +17,8 @@ def admin_dashboard(id=1):
         paginate(page=id, per_page=app.config['ADMIN_POSTS_PER_PAGE'])
     users = User.query.all()
     categories = Category.query.all()
-    return render_template('admin/dashboard.html.j2', posts=posts, users=users,
-                           categories=categories, title='Dashboard')
+    return render_theme_template('admin/dashboard.html.j2', posts=posts, users=users,
+                                 categories=categories, title='Dashboard')
 
 
 @app.route('/admin/users/new', methods=['POST', 'GET'])
@@ -38,7 +38,7 @@ def new_user():
         flash('User %s has been created!' % user.nickname)
         return redirect(url_for('admin_dashboard'))
     else:
-        return render_template('admin/user.html.j2', title='New User', form=form)
+        return render_theme_template('admin/user.html.j2', title='New User', form=form)
 
 
 @app.route('/admin/users/edit/<int:id>', methods=['POST', 'GET'])
@@ -73,7 +73,7 @@ def edit_user(id):
         form.nickname.data = user.nickname
         form.is_admin.data = user.is_admin
 
-        return render_template('admin/user.html.j2', title='Edit User', form=form)
+        return render_theme_template('admin/user.html.j2', title='Edit User', form=form)
 
 
 @app.route('/admin/users/delete/<int:id>', methods=['POST', 'GET'])
@@ -99,8 +99,8 @@ def delete_user(id):
         return redirect(url_for('admin_dashboard'))
     else:
         msg = 'Warning: This will also remove all posts written by %s!' % user.nickname
-        return render_template('admin/delete.html.j2', title='Delete User',
-                               obj=user.nickname, form=form, msg=msg)
+        return render_theme_template('admin/delete.html.j2', title='Delete User',
+                                     obj=user.nickname, form=form, msg=msg)
 
 
 @app.route('/admin/categories/new', methods=['POST', 'GET'])
@@ -116,8 +116,8 @@ def new_category():
         flash('Category "%s" has been created!' % category.name)
         return redirect(url_for('admin_dashboard'))
     else:
-        return render_template('admin/category.html.j2', title='New Category',
-                               form=form)
+        return render_theme_template('admin/category.html.j2', title='New Category',
+                                     form=form)
 
 
 @app.route('/admin/categories/edit/<int:id>', methods=['POST', 'GET'])
@@ -140,8 +140,8 @@ def edit_category(id):
     else:
         form.name.data = category.name
         form.image_url.data = category.image_url
-        return render_template('admin/category.html.j2', title='Edit Category',
-                               form=form)
+        return render_theme_template('admin/category.html.j2', title='Edit Category',
+                                     form=form)
 
 
 @app.route('/admin/categories/delete/<int:id>', methods=['POST', 'GET'])
@@ -164,8 +164,8 @@ def delete_category(id):
         return redirect(url_for('admin_dashboard'))
     else:
         msg = 'Warning: Posts will be marked as uncategorized'
-        return render_template('admin/delete.html.j2', title='Delete Category',
-                               obj=category.name, msg=msg, form=form)
+        return render_theme_template('admin/delete.html.j2', title='Delete Category',
+                                     obj=category.name, msg=msg, form=form)
 
 
 @app.route('/admin/posts/new', methods=['POST', 'GET'])
@@ -184,7 +184,7 @@ def new_post():
               % url_for('post', slug=post.slug))
         return redirect(url_for('page'))
     else:
-        return render_template('admin/post.html.j2', title='New Post', form=form)
+        return render_theme_template('admin/post.html.j2', title='New Post', form=form)
 
 
 @app.route('/admin/posts/edit/<int:id>', methods=['POST', 'GET'])
@@ -213,7 +213,7 @@ def edit_post(id):
         form.post.data = post.content
         form.title.data = post.title
         form.category.data = post.category_id
-        return render_template('admin/post.html.j2', title='Edit Post', form=form)
+        return render_theme_template('admin/post.html.j2', title='Edit Post', form=form)
 
 
 @app.route('/admin/posts/delete/<int:id>', methods=['POST', 'GET'])
@@ -232,5 +232,5 @@ def delete_post(id):
         flash('Post "%s" has been removed!' % post.title)
         return redirect(url_for('admin_dashboard'))
     else:
-        return render_template('admin/delete.html.j2', title='Delete Post',
-                               obj=post.title, form=form)
+        return render_theme_template('admin/delete.html.j2', title='Delete Post',
+                                     obj=post.title, form=form)

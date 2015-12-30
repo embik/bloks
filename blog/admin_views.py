@@ -54,7 +54,7 @@ def edit_user(id):
         # Do not allow privilege removal for the user's own account
         if current_user == user and user.is_admin is True and form.is_admin.data is False:
             flash('Updating user %s failed. You cannot remove administrative\
-                   privileges from yourself!' % user.nickname)
+                   privileges from yourself!' % user.nickname, 'error')
             return redirect(url_for('admin_dashboard'))
 
         if len(form.password.data) > 0:
@@ -85,7 +85,7 @@ def delete_user(id):
         abort(404)
     if current_user == user:
         flash('Deleting user %s failed. You cannot remove your own user account!'
-              % user.nickname)
+              % user.nickname, 'error')
         return redirect(url_for('admin_dashboard'))
 
     form = RemovalForm()

@@ -8,26 +8,51 @@
             {{ config['BLOG_TITLE'] }}
         {% endif %}
         </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/static/blog.css">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:900">
         {% block head %}{% endblock %}
     </head>
     <body>
-        {% if g.user.is_authenticated %}
-            <div style="float: right;">{{ g.user.nickname }} {% if g.user.is_admin %}(Admin){% endif %}
-             |
-            <a href="{{ url_for('new_post') }}">New Post</a> | <a href="{{ url_for('admin_dashboard' )}}">Dashboard</a> | <a href="{{ url_for('logout') }}">Logout</a></div>
-        {% endif %}
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
+        <header id="header">
+            <h1><a href="{{ url_for('page') }}">{{ config ['BLOG_TITLE'] }}</a></h1>
+            <nav>
+                <a href="{{ url_for('page') }}">Index</a>
+            </nav>
+        </header>
+        {% if not no_wrapper %}
+        <div id="wrapper">
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+            <aside>
+                {% if g.user.is_authenticated %}
+                <ul class="actions">
+                    <li class="status">Hello <strong>{{ g.user.nickname }}</strong> - <a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li><a href="{{ url_for('new_post') }}" class="button">New Post</a></li>
+                    <li><a href="{{ url_for('admin_dashboard' )}}" class="button">Dashboard</a></li>
                 </ul>
+                {% endif %}
+                <div class="box justify">
+                    {{ render_markdown(config['BLOG_DESCRIPTION']) }}
+                </div>
+                {% block sidebar %}{% endblock %}
+            </aside>
+        </div>
+        {% else %}
+            {% block full_content %}{% endblock %}
+        {% endif %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+            <ul id="notifications">
+                {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
             {% endif %}
         {% endwith %}
-        <span>{{ config['BLOG_TITLE'] }}</span> - <a href="{{ url_for('page') }}">Index</a>
-        <hr>
-        {% block content %}
-        {% endblock %}
+        <script src="/static/blog.js"></script>
     </body>
 </html>

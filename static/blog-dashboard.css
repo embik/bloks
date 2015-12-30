@@ -1,0 +1,33 @@
+.login-flow {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: 95vh;
+}
+
+.login-wrapper {
+    flex-grow: 1;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 20em;
+    width: 100%;
+}
+
+.login-form {
+    margin: auto;
+    width: 100%;
+    padding: 2em;
+    padding-bottom: 3em;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    background: #FFF;
+    margin-bottom: 1em;
+    text-align: center;
+}

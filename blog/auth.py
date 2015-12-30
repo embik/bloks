@@ -14,7 +14,7 @@ def try_login(username, password):
             flash('Successfuly signed in as %s' % user.nickname)
             return redirect(url_for('page'))
 
-    flash('Login failed!')
+    flash('Login failed!', 'error')
     return redirect(url_for('login'))
 
 

@@ -18,8 +18,8 @@ if 'BLOG_LOG_PATH' in os.environ:
 else:
     LOG_PATH = os.path.join(basedir, 'tmp', 'blog.log')
 
-BLOG_TITLE = 'embik\'s blog'
-BLOG_DESCRIPTION = 'no text'
+BLOG_TITLE = 'example blog'
+BLOG_DESCRIPTION = 'This is an example blog. It\'s authored by someone.'
 BLOG_THEME = 'default'
 
 POSTS_PER_PAGE = 5

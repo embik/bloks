@@ -1,0 +1,353 @@
+/*
+ * Default theme for a python blog engine by embik (github.com/embik).
+ * This theme is heavily inspired by (read as: partly copied from) html5up.net's
+ * "future imperfect" (http://html5up.net/future-imperfect). It's beatiful
+ * and you should really visit html5up.net if you're looking for designs.
+ */
+
+* { box-sizing: border-box; }
+
+body {
+    color: #646464;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 14pt;
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+    background: #F4F4F4;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    color: inherit;
+    transition: all 200ms ease-out;
+}
+
+a:hover {
+    color: #0095DD;
+    transition: all 200ms ease-in;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    color: #3C3B3B;
+    font-weight: 900;
+}
+
+strong { color: #3C3B3B; }
+
+small, .small {
+    text-transform: uppercase;
+    font-size: 11pt;
+    letter-spacing: 1px;
+}
+
+.center { text-align: center; }
+.justify { text-align: justify; }
+
+.wide { width: 100%; }
+
+.box {
+    display: block;
+    width: 100%;
+    background: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 0.2em 1em;
+    margin-bottom: 1em;
+}
+
+#header {
+    display: flex;
+    background: #FFF;
+    height: 3.5em;
+    line-height: 3.5em;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    z-index: 999;
+}
+
+#header h1 {
+    line-height: inherit;
+    height: inherit;
+    font-size: 14pt;
+    padding: 0 16px 0 16px;
+    letter-spacing: 3px;
+}
+
+#header h1 a {
+    color: inherit;
+}
+
+#header nav {
+    flex: 1 1 0%;
+    line-height: inherit;
+    height: inherit;
+    text-align: right;
+    display: block;
+    text-transform: uppercase;
+    font-size: 10.5pt;
+    letter-spacing: 3px;
+}
+
+#header nav a {
+    color: inherit;
+    display: inline-block;
+    text-align: center;
+    padding: 0 16px 0 16px;
+    transition: all 250ms ease-out;
+    border-left: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#wrapper {
+    display: flex;
+    margin: 3em auto 0 auto;
+    width: 85em;
+    max-width: 100%;
+    padding: 4.5em;
+    flex-direction: row-reverse;
+}
+
+#wrapper main { width: 100%; }
+
+#wrapper aside {
+    min-width: 22em;
+    width: 22em;
+    margin: 0 2em;
+}
+
+#wrapper aside p { line-height: 1.3em; }
+
+.post {
+    background: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    margin: 0 0 3em;
+}
+
+.post header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1.5em;
+}
+
+.post header h2 {
+    color: #3C3B3B;
+    font-size: 24pt;
+    letter-spacing: 3px;
+}
+
+.post header .meta {
+    text-transform: uppercase;
+    font-size: 10pt;
+    letter-spacing: 2px;
+}
+
+.post-content p {
+    padding: 0.1em 1.5em 0.1em 1.5em;
+    text-align: justify;
+}
+
+.post-content h2 { padding: 0.5em 1em 0 1em; }
+.post-content h3 { padding: 0.5em 1.25em 0 1.25em; }
+
+.post footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1.5em;
+    text-transform: uppercase;
+    font-size: 11pt;
+}
+
+#pagination {
+    width: 100%;
+    display: block;
+    text-transform: uppercase;
+    font-size: 11pt;
+}
+
+#pagination #previous {
+    display: inline-block;
+    float: left;
+}
+
+#pagination #next {
+    display: inline-block;
+    float: right;
+}
+
+ul.actions {
+    list-style: none;
+    padding: 0;
+    text-align: right;
+}
+
+ul.actions li.status {
+    display: block;
+    text-transform: uppercase;
+    font-size: 11pt;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+ul.actions li {
+    display: inline-block;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+ul.categories {
+    list-style: none;
+    padding: 0;
+}
+
+ul.categories li {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1em 0 1em 0;
+}
+
+ul.categories li:last-child { border-bottom: 0; }
+
+ul.categories li header {
+    display: block;
+    flex-grow: 1;
+    height: 3em;
+}
+
+ul.categories li header h2 {
+    font-size: 12pt;
+    letter-spacing: 3px;
+    margin-bottom: -0.5em;
+}
+
+ul.categories li header .meta {
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+ul.categories li .image {
+    width: 3em;
+    display: block;
+    overflow: hidden;
+    margin-right: 1.5em;
+    background: #111;
+    border-radius: 3px;
+}
+
+ul.categories li .image:hover img { opacity: 0.75; }
+
+ul.categories li .image img {
+    display: block;
+    min-width: 3em;
+    width: 3em;
+    height: 3em;
+    transition: all 0.2s ease-out 0s;
+}
+
+.preview {
+    display: flex;
+    flex-direction: column-reverse;
+    background: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 2em;
+}
+
+.preview header {
+    padding: 1em;
+}
+
+.preview header h2 {
+    color: #3C3B3B;
+    font-size: 12pt;
+    letter-spacing: 2px;
+    margin-bottom: -1em;
+}
+
+.preview header .meta {
+    text-transform: uppercase;
+    font-size: 9pt;
+    letter-spacing: 1px;
+}
+
+.preview .image {
+    width: 100%;
+    overflow: hidden;
+    background: #111;
+}
+
+.preview .image img {
+    display: block;
+    width: 100%;
+    transition: all 0.2s ease-out 0s;
+}
+
+.preview .image:hover img { transform: scale(1.1); opacity: 0.7; }
+
+
+button, .button {
+    display: inline-block;
+    -moz-appearance: none;
+    background: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1.25em 2.5em 1.25em 2.5em;
+    font-family: 'Raleway', sans-serif;
+    color: #3F3F3F;
+    font-size: 0.7em;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 3px;
+    transition: all 200ms ease;
+}
+
+button:hover, .button:hover {
+    color: #0095DD;
+    border-color: #0095DD;
+}
+
+.input, input[type="text"], input[type="password"] {
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1em;
+    font-family: inherit;
+    font-size: 14pt;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+#notifications {
+    position: fixed;
+    list-style: none;
+    right: 0;
+    top: 3em;
+    z-index: 1000;
+    text-transform: uppercase;
+    font-size: 11pt;
+}
+
+#notifications li {
+    color: #FFF;
+    margin: 1em;
+    padding: 1.75em;
+    opacity: 0.9;
+    border-radius: 3px;
+    min-width: 20em;
+    cursor: pointer;
+    transition: all 350ms ease;
+}
+
+#notifications li a:hover { color: #BBB; }
+#notifications li, #notifications li.info { background: #0095DD; }
+#notifications li.error { background: #D24335; }
+
+#notifications li.hidden {
+    opacity: 0;
+    visibility: hidden;
+}

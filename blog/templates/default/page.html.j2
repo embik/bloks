@@ -1,21 +1,56 @@
 {% extends 'default/base.html.j2' %}
 
-{% block title %}Index{% endblock %}
-
 {% block content %}
-    Index
     {% if posts %}
-        <p><strong>Posts:</strong></p>
-        <ul>
         {% for post in posts.items %}
-            <li><a href="{{ url_for('post', slug=post.slug)}}">{{ post.title }}</a></li>
+            <article class="post">
+                <header>
+                    <h2><a href="{{ url_for('post', slug=post.slug)}}">{{ post.title }}</a></h2>
+                    <span class="meta">
+                        <strong>{{ post.timestamp.strftime('%B %d, %Y') }}</strong> | Posted by {{ post.author.nickname }}
+                        {% if post.category %}
+                            in {{ post.category.name }}
+                        {% endif %}
+                    </span>
+                </header>
+                <div class="post-content">
+                    {{ render_markdown(post.content) }}
+                </div>
+                {% if g.user.is_admin or g.user == post.author %}
+                    <footer>
+                        <a href="{{ url_for('edit_post', id=post.id) }}">Edit Post</a>
+                    </footer>
+                {% endif %}
+            </article>
         {% endfor %}
-        </ul>
+
+        <nav id="pagination">
         {% if posts.has_prev %}
-            <a href="{{ url_for('page', id=posts.prev_num )}}">Next Posts</a>
+            <a href="{{ url_for('page', id=posts.prev_num )}}" id="previous">Previous Page</a>
         {% endif %}
         {% if posts.has_next %}
-            <a href="{{ url_for('page', id=posts.next_num )}}">Older Posts</a>
+            <a href="{{ url_for('page', id=posts.next_num )}}" id="next">Next Page</a>
         {% endif %}
+        </nav>
+    {% else %}
+        <div class="box"><h1>No Posts Yet!</h1></div>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+    {% if categories %}
+        <ul class="categories">
+            {% for cat in categories %}
+                <li>
+                    <header>
+                        <h2><a href="#">{{ cat.name }}</a></h2>
+                        <span class="meta">Posts: {{ cat.posts.count() }}</span>
+                    </header>
+                    <a class="image" href="#">
+                        <img alt="" src="">
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
     {% endif %}
 {% endblock %}

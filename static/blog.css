@@ -175,7 +175,7 @@ hr {
     letter-spacing: 2px;
 }
 
-.post-content p {
+.post-content p, #flask-pagedown-post-preview {
     padding: 0.1em 1.5em 0.1em 1.5em;
     text-align: justify;
 }
@@ -306,6 +306,7 @@ ul.categories li .image img {
 
 .preview .image {
     width: 100%;
+    min-height: 10em;
     overflow: hidden;
     background: #111;
 }

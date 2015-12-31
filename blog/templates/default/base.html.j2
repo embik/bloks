@@ -29,15 +29,17 @@
             </main>
             <aside>
                 {% if g.user.is_authenticated %}
-                <ul class="actions">
-                    <li class="status">Hello <strong>{{ g.user.nickname }}</strong> - <a href="{{ url_for('logout') }}">Logout</a></li>
-                    <li><a href="{{ url_for('new_post') }}" class="button">New Post</a></li>
-                    <li><a href="{{ url_for('admin_dashboard' )}}" class="button">Dashboard</a></li>
-                </ul>
+                    <ul class="actions">
+                        <li class="status">Hello <strong>{{ g.user.nickname }}</strong> - <a href="{{ url_for('logout') }}">Logout</a></li>
+                        <li><a href="{{ url_for('new_post') }}" class="button">New Post</a></li>
+                        <li><a href="{{ url_for('admin_dashboard' )}}" class="button">Dashboard</a></li>
+                    </ul>
                 {% endif %}
-                <div class="box justify">
-                    {{ render_markdown(config['BLOG_DESCRIPTION']) }}
-                </div>
+                {% if not no_description %}
+                    <div class="box justify">
+                        {{ render_markdown(config['BLOG_DESCRIPTION']) }}
+                    </div>
+                {% endif %}
                 {% block sidebar %}{% endblock %}
             </aside>
         </div>

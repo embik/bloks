@@ -47,6 +47,11 @@ small, .small {
     letter-spacing: 1px;
 }
 
+hr {
+    color: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.05);
+}
+
 .center { text-align: center; }
 .justify { text-align: justify; }
 
@@ -60,6 +65,28 @@ small, .small {
     padding: 0.2em 1em;
     margin-bottom: 1em;
 }
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead tr th {
+    padding: 0.5em;
+    text-transform: uppercase;
+    font-size: 11pt;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.table tr td {
+    padding: 0.5em;
+    border-right: 1px solid rgba(0, 0, 0, 0.125);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    min-width: 5em;
+}
+
+.table tr td:last-child { border-right: 0; }
+.table tr:last-child td { border-bottom: 0; }
 
 #header {
     display: flex;
@@ -320,6 +347,15 @@ button:hover, .button:hover {
     font-family: inherit;
     font-size: 14pt;
     color: rgba(0, 0, 0, 0.75);
+}
+
+textarea {
+    border: 0;
+    resize: none;
+    width: 100%;
+    font: inherit;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 0.5em;
 }
 
 #notifications {

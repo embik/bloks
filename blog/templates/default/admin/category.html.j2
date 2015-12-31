@@ -3,17 +3,19 @@
 {% block content %}
     <form action="" method="post" name="category">
         {{ form.hidden_tag() }}
-        <p>
-            Name: {{ form.name(size=15) }}
-            {% for error in form.name.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>Image URL: {{ form.image_url(size=40) }}
-            {% for error in form.image_url.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p><button type="submit">Submit</button></p>
+        <div class="box">
+            <p>
+                {{ form.name(size=20, placeholder='Category Name') }}
+                {% for error in form.name.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+            <p>{{ form.image_url(size=40, placeholder='Image URL') }}
+                {% for error in form.image_url.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+        </div>
+        <button type="submit">Submit</button>
     </form>
 {% endblock %}

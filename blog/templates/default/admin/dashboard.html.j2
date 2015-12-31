@@ -5,12 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Dashboard</h1>
-    <div style="width: 65%; display: inline-block;">
-        <h2>Posts</h2>
+    <div class="box">
         {% if posts %}
-            <a href="{{ url_for('new_post') }}">New Post</a>
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -49,12 +46,12 @@
             <p>No posts found! <a href="{{ url_for('new_post') }}">Write your first post!</a></p>
         {% endif %}
     </div>
-    <div style="width: 32.5%; display: inline-block; float: right;">
-        <div>
-            <h2>Users</h2>
-            {% if g.user.is_admin %}<a href="{{ url_for('new_user') }}">New User</a>{% endif %}
-            {% if users %}
-                <table>
+{% endblock %}
+{% block sidebar %}
+    <div>
+        {% if users %}
+            <div class="box">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Nickname</th>
@@ -79,14 +76,17 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
+        {% if g.user.is_admin %}
+            <a href="{{ url_for('new_user') }}" class="button">New User</a>
+        {% endif %}
         <hr>
-        <div>
-            <h2>Categories</h2>
-            {% if g.user.is_admin %}<a href="{{ url_for('new_category') }}">New Category</a>{% endif %}
-            {% if categories %}
-                <table>
+    </div>
+    <div>
+        {% if categories %}
+            <div class="box">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -109,8 +109,10 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
+        {% if g.user.is_admin %}
+            <a href="{{ url_for('new_category') }}" class="button">New Category</a>
+        {% endif %}
     </div>
-
 {% endblock %}

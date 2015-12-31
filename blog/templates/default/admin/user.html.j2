@@ -3,21 +3,23 @@
 {% block content %}
     <form action="" method="post" name="user">
         {{ form.hidden_tag() }}
-        <p>
-            Nickname {{ form.nickname(size=15) }}
-            {% for error in form.nickname.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>
-            Password {{ form.password(size=15, placeholder='New Password') }}
-            {% for error in form.password.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p>
-            Administrative privileges {{ form.is_admin }}
-        </p>
-        <p><button type="submit">Submit</button></p>
+        <div class="box">
+            <p>
+                {{ form.nickname(size=20, placeholder='Nickname') }}
+                {% for error in form.nickname.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.password(size=20, placeholder='New Password') }}
+                {% for error in form.password.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+            <p>
+                Administrative privileges {{ form.is_admin }}
+            </p>
+        </div>
+        <button type="submit">Submit</button>
     </form>
 {% endblock %}

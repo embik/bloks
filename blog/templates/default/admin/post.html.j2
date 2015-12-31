@@ -4,25 +4,27 @@
 
 {% block content %}
     <form action="" method="post" name="post">
-        {{ form.hidden_tag() }}
-        <p>
-            Title {{ form.title(size=30) }}
-            {% for error in form.title.errors %}
-                <span style="color: red;">{{ error }}</span>
+            {{ form.hidden_tag() }}
+        <div class="box">
+            <p>
+                {{ form.title(size=50, placeholder="Title of your blog post") }}
+                {% for error in form.title.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+            <p>
+                Category: {{ form.category }}
+                {% for error in form.category.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+            <p>
+            {% for error in form.post.errors %}
+                <div style="color: red;">{{ error }}</div>
             {% endfor %}
-        </p>
-        <p>
-        {% for error in form.post.errors %}
-            <div style="color: red;">{{ error }}</div>
-        {% endfor %}
-            {{ form.post(rows=15,cols=75) }}
-        </p>
-        <p>
-            Category: {{ form.category }}
-            {% for error in form.category.errors %}
-                <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </p>
-        <p><button type="submit">Submit</button></p>
+                {{ form.post(rows=15,cols=75) }}
+            </p>
+        </div>
+        <button type="submit">Submit</button>
     </form>
 {% endblock %}

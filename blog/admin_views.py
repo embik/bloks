@@ -18,7 +18,7 @@ def admin_dashboard(id=1):
     users = User.query.all()
     categories = Category.query.all()
     return render_theme_template('admin/dashboard.html.j2', posts=posts, users=users,
-                                 categories=categories, title='Dashboard')
+                                 categories=categories, title='Dashboard', no_description=True)
 
 
 @app.route('/admin/users/new', methods=['POST', 'GET'])

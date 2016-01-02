@@ -3,3 +3,5 @@ blog.db
 **/__pycache__/
 tmp/
 *.pyc
+static/upload/
+migrations/

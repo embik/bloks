@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="box">
         {% if posts %}
             <table class="table">
                 <thead>
@@ -46,12 +45,10 @@
         {% else %}
             <p>No posts found! <a href="{{ url_for('new_post') }}">Write your first post!</a></p>
         {% endif %}
-    </div>
 {% endblock %}
 {% block sidebar %}
     <div>
         {% if users %}
-            <div class="box">
                 <table class="table">
                     <thead>
                         <tr>
@@ -81,7 +78,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </div>
         {% endif %}
         {% if g.user.is_admin %}
             <a href="{{ url_for('new_user') }}" class="button">New User</a>
@@ -90,7 +86,6 @@
     </div>
     <div>
         {% if categories %}
-            <div class="box">
                 <table class="table">
                     <thead>
                         <tr>
@@ -114,7 +109,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
-            </div>
         {% endif %}
         {% if g.user.is_admin %}
             <a href="{{ url_for('new_category') }}" class="button">New Category</a>

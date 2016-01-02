@@ -1,10 +1,13 @@
+import os
+import re
 from blog import app, db
 from blog.forms import PostForm, UserForm, CategoryForm, RemovalForm
 from blog.models import Post, User, Category, Hash
-from blog.utils import create_slug, render_theme_template
+from blog.utils import create_slug, render_theme_template, allowed_file
 from blog.auth import create_hash, admin_required
-from flask import flash, url_for, redirect, abort
+from flask import flash, url_for, redirect, abort, request
 from flask.ext.login import login_required, current_user
+from werkzeug import secure_filename
 from datetime import datetime
 from sqlalchemy import desc
 
@@ -109,7 +112,18 @@ def delete_user(id):
 def new_category():
     form = CategoryForm()
     if form.validate_on_submit():
-        category = Category(name=form.name.data, image_url=form.image_url.data)
+        image = request.files['image']
+        image_url = ''
+        if image and allowed_file(image.filename):
+            _, image_ext = os.path.splitext(secure_filename(image.filename))
+            filename = 'category_%s%s' % (
+                re.sub(r'[^a-z0-9_.-]', '_', form.name.data.lower()),
+                image_ext
+            )
+            image_path = os.path.join(app.config['UPLOAD_DIR'], filename)
+            image_url = os.path.join(app.config['UPLOAD_DIR_URL'], filename)
+            image.save(image_path)
+        category = Category(name=form.name.data, file_path=image_path, image_url=image_url)
         db.session.add(category)
         db.session.commit()
 
@@ -130,8 +144,35 @@ def edit_category(id):
 
     form = CategoryForm()
     if form.validate_on_submit():
-        category.name = form.name.data
-        category.image_url = form.image_url.data
+        image = request.files['image']
+        if category.name != form.name.data:
+            category.name = form.name.data
+            if not image:
+                _, image_ext = os.path.splitext(category.file_path)
+                filename = 'category_%s%s' % (
+                    re.sub(r'[^a-z0-9_.-]', '_', form.name.data.lower()),
+                    image_ext
+                )
+                image_path = os.path.join(app.config['UPLOAD_DIR'], filename)
+                try:
+                    os.rename(category.file_path, image_path)
+                except OSError:
+                    flash('Category image could not be moved!', 'warning')
+                category.image_url = os.path.join(app.config['UPLOAD_DIR_URL'], filename)
+                category.file_path = image_path
+
+        if image and allowed_file(image.filename):
+            _, image_ext = os.path.splitext(secure_filename(image.filename))
+            filename = 'category_%s%s' % (
+                re.sub(r'[^a-z0-9_.-]', '_', form.name.data.lower()),
+                image_ext
+            )
+            image_path = os.path.join(app.config['UPLOAD_DIR'], filename)
+            image_url = os.path.join(app.config['UPLOAD_DIR_URL'], filename)
+            image.save(image_path)
+            category.image_url = image_url
+            category.file_path = image_path
+
         db.session.add(category)
         db.session.commit()
 
@@ -139,7 +180,6 @@ def edit_category(id):
         return redirect(url_for('admin_dashboard'))
     else:
         form.name.data = category.name
-        form.image_url.data = category.image_url
         return render_theme_template('admin/category.html.j2', title='Edit Category',
                                      form=form)
 
@@ -158,6 +198,10 @@ def delete_category(id):
         for post in posts:
             post.category_id = 0
             db.session.add(post)
+        try:
+            os.remove(Category.query.filter_by(id=id).first().file_path)
+        except OSError:
+            flash('Category image could not be deleted', 'warning')
         Category.query.filter_by(id=id).delete()
         db.session.commit()
         flash('Category %s has been deleted!' % category.name)

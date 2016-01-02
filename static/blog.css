@@ -307,6 +307,7 @@ ul.categories li .image img {
 .preview .image {
     width: 100%;
     min-height: 10em;
+    max-height: 10em;
     overflow: hidden;
     background: #111;
 }

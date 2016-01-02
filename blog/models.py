@@ -46,6 +46,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True)
     image_url = db.Column(db.String(256))
+    file_path = db.Column(db.String)
     posts = db.relationship('Post', backref='category', lazy='dynamic')
 
     def __repr__(self):

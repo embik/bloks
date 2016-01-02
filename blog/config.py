@@ -24,3 +24,7 @@ BLOG_THEME = 'default'
 
 POSTS_PER_PAGE = 5
 ADMIN_POSTS_PER_PAGE = 20
+
+UPLOAD_DIR = os.path.join(basedir, 'static', 'upload')
+UPLOAD_DIR_URL = '/static/upload/'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])

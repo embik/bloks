@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
 from flask.ext.pagedown.fields import PageDownField
-from wtforms import StringField, PasswordField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SelectField, FileField
 from wtforms.validators import DataRequired
 
 
@@ -18,7 +18,7 @@ class PostForm(Form):
 
 class CategoryForm(Form):
     name = StringField('name', validators=[DataRequired()])
-    image_url = StringField('image_url')
+    image = FileField('image')
 
 
 class UserForm(Form):

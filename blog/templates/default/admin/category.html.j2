@@ -1,7 +1,7 @@
 {% extends 'default/base.html.j2' %}
 
 {% block content %}
-    <form action="" method="post" name="category">
+    <form action="" method="post" name="category" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <div class="box">
             <p>
@@ -10,8 +10,9 @@
                     <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </p>
-            <p>{{ form.image_url(size=40, placeholder='Image URL') }}
-                {% for error in form.image_url.errors %}
+            <p>
+                {{ form.image(accept='.jpg,.jpeg,.png,.gif') }}
+                {% for error in form.image.errors %}
                     <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </p>

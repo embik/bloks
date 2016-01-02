@@ -43,3 +43,8 @@ def render_theme_template(template_file, **context):
                                **context)
     else:
         return render_template(os.path.join('default', template_file), **context)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']

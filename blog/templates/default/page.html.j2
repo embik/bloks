@@ -47,23 +47,25 @@
                         <span class="meta">Posts: {{ cat.posts.count() }}</span>
                     </header>
                     <a class="image" href="#">
-                        <img alt="" src="">
+                        <img src="{{ cat.image_url }}" alt="">
                     </a>
                 </li>
             {% endfor %}
         </ul>
         {% for cat in categories %}
+        {% if cat.posts.count() > 0 %}
         {% with post = cat.posts[cat.posts.count() - 1] %}
             <div class="preview">
                 <header>
-                    <h2>{{ post.title }}</h2>
+                    <h2><a href="{{ url_for('post', slug=post.slug)}}">{{ post.title }}</a></h2>
                     <span class="meta">{{ post.timestamp.strftime('%B %d, %Y') }}</span>
                 </header>
                 <a class="image" href="{{ url_for('post', slug=post.slug)}}">
-                    <img src="{{ cat.image_url }}" alt="{{ cat.name }}">
+                    <img src="{{ cat.image_url }}" alt="">
                 </a>
             </div>
         {% endwith %}
+        {% endif %}
         {% endfor %}
     {% endif %}
 {% endblock %}

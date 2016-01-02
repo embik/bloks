@@ -2,6 +2,7 @@
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="/static/blog-dashboard.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block content %}
@@ -20,16 +21,16 @@
                 <tbody>
                 {% for post in posts.items %}
                     <tr>
-                        <td><a href="{{ url_for('post', slug=post.slug)}}">{{ post.title }}</a></td>
-                        <td>{{ post.author.nickname }}</td>
-                        <td>{{ post.category.name }}</td>
-                        <td>{{ post.timestamp.strftime('%B %d, %Y %H:%M') }}</td>
-                        <td>
+                        <td><a href="{{ url_for('post', slug=post.slug)}}" target="_blank">{{ post.title }}</a></td>
+                        <td class="center">{{ post.author.nickname }}</td>
+                        <td class="center">{{ post.category.name }}</td>
+                        <td class="center">{{ post.timestamp.strftime('%B %d, %Y %H:%M') }}</td>
+                        <td class="center">
                         {% if g.user.is_admin or post.author == g.user %}
-                            <a href="{{ url_for('edit_post', id=post.id)}}">Edit</a>
+                            <a href="{{ url_for('edit_post', id=post.id)}}"><i class="fa fa-pencil"></i></a>
                         {% endif %}
                         {% if g.user.is_admin %}
-                            <a href="{{ url_for('delete_post', id=post.id)}}">Delete</a>
+                            <a href="{{ url_for('delete_post', id=post.id)}}"><i class="fa fa-remove"></i></a>
                         {% endif %}
                         </td>
                     </tr>
@@ -63,12 +64,16 @@
                     {% for user in users %}
                         <tr>
                             <td>{{ user.nickname }}</td>
-                            <td>{{ user.is_admin }}</td>
-                            <td>
+                            <td class="center">
+                                {% if user.is_admin %}
+                                    <i class="fa fa-check"></i>
+                                {% endif %}
+                            </td>
+                            <td class="center">
                             {% if g.user.is_admin %}
-                                <a href="{{ url_for('edit_user', id=user.id)}}">Edit</a>
+                                <a href="{{ url_for('edit_user', id=user.id)}}"><i class="fa fa-pencil"></i></a>
                                 {% if not g.user == user %}
-                                    <a href="{{ url_for('delete_user', id=user.id)}}">Delete</a>
+                                    <a href="{{ url_for('delete_user', id=user.id)}}"><i class="fa fa-remove"></i></a>
                                 {% endif %}
                             {% endif %}
                             </td>
@@ -98,11 +103,11 @@
                     {% for category in categories %}
                         <tr>
                             <td>{{ category.name }}</td>
-                            <td><a href="{{ category.image_url }}">Click</a></td>
-                            <td>
+                            <td class="center"><a href="{{ category.image_url }}"><i class="fa fa-picture-o"></i></a></td>
+                            <td class="center">
                             {% if g.user.is_admin %}
-                                <a href="{{ url_for('edit_category', id=category.id) }}">Edit</a>
-                                <a href="{{ url_for('delete_category', id=category.id)}}">Delete</a>
+                                <a href="{{ url_for('edit_category', id=category.id) }}"><i class="fa fa-pencil"></i></a>
+                                <a href="{{ url_for('delete_category', id=category.id)}}"><i class="fa fa-remove"></i></a>
                             {% endif %}
                             </td>
                         </tr>

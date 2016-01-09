@@ -32,7 +32,7 @@ def page(id=1):
         abort(404)
 
 
-@app.route('/<string:slug>')
+@app.route('/<string:slug>/')
 def post(slug):
     post = Post.query.filter_by(slug=slug).first()
     if post:

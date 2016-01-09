@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    <a href="{{ url_for('new_post')}}" class="button">New Post</a>
         {% if posts %}
             <table class="table">
                 <thead>
@@ -43,11 +44,14 @@
                 <a href="{{ url_for('admin_dashboard', id=posts.next_num )}}">Older Posts</a>
             {% endif %}
         {% else %}
-            <p>No posts found! <a href="{{ url_for('new_post') }}">Write your first post!</a></p>
+            <p>No posts found!</p>
         {% endif %}
 {% endblock %}
 {% block sidebar %}
     <div>
+        {% if g.user.is_admin %}
+            <a href="{{ url_for('new_user') }}" class="button">New User</a>
+        {% endif %}
         {% if users %}
                 <table class="table">
                     <thead>
@@ -79,12 +83,12 @@
                     </tbody>
                 </table>
         {% endif %}
-        {% if g.user.is_admin %}
-            <a href="{{ url_for('new_user') }}" class="button">New User</a>
-        {% endif %}
         <hr>
     </div>
     <div>
+        {% if g.user.is_admin %}
+            <a href="{{ url_for('new_category') }}" class="button">New Category</a>
+        {% endif %}
         {% if categories %}
                 <table class="table">
                     <thead>
@@ -109,9 +113,6 @@
                     {% endfor %}
                     </tbody>
                 </table>
-        {% endif %}
-        {% if g.user.is_admin %}
-            <a href="{{ url_for('new_category') }}" class="button">New Category</a>
         {% endif %}
     </div>
 {% endblock %}

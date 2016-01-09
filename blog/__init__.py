@@ -35,8 +35,10 @@ lm = LoginManager()
 lm.init_app(app)
 
 from blog import utils
+from blog.models import Link
 app.jinja_env.globals.update(render_markdown=utils.render_markdown)
 app.jinja_env.globals.update(join=os.path.join)
+app.jinja_env.globals.update(link_query=Link.query.all)
 
 from blog import views, admin_views, errors, models
 __all__ = ['views', 'admin_views', 'errors', 'models', ]

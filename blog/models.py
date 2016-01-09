@@ -60,3 +60,9 @@ class Hash(db.Model):
 
     def __repr__(self):
         return '<Hash (user_id=%s)>' % (self.user_id)
+
+
+class Link(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    label = db.Column(db.String)
+    url = db.Column(db.String)

@@ -27,5 +27,10 @@ class UserForm(Form):
     is_admin = BooleanField('is_admin', default=False)
 
 
+class LinkForm(Form):
+    label = StringField('label', validators=[DataRequired()])
+    url = StringField('url', validators=[DataRequired()])
+
+
 class RemovalForm(Form):
     is_confirmed = BooleanField('is_confirmed', default=False)

@@ -1,8 +1,8 @@
 import os
 import re
 from blog import app, db
-from blog.forms import PostForm, UserForm, CategoryForm, RemovalForm
-from blog.models import Post, User, Category, Hash
+from blog.forms import PostForm, UserForm, CategoryForm, RemovalForm, LinkForm
+from blog.models import Post, User, Category, Hash, Link
 from blog.utils import create_slug, render_theme_template, allowed_file
 from blog.auth import create_hash, admin_required
 from flask import flash, url_for, redirect, abort, request
@@ -13,15 +13,17 @@ from sqlalchemy import desc
 
 
 @app.route('/admin/dashboard')
-@app.route('/admin/dashboard/<int:id>')
+@app.route('/admin/dashboard/page/<int:id>')
 @login_required
 def admin_dashboard(id=1):
     posts = Post.query.order_by(desc(Post.id)).\
         paginate(page=id, per_page=app.config['ADMIN_POSTS_PER_PAGE'])
     users = User.query.all()
     categories = Category.query.all()
+    links = Link.query.all()
     return render_theme_template('admin/dashboard.html.j2', posts=posts, users=users,
-                                 categories=categories, title='Dashboard', no_description=True)
+                                 categories=categories, links=links, title='Dashboard',
+                                 no_description=True)
 
 
 @app.route('/admin/users/new', methods=['POST', 'GET'])
@@ -278,3 +280,61 @@ def delete_post(id):
     else:
         return render_theme_template('admin/delete.html.j2', title='Delete Post',
                                      obj=post.title, form=form)
+
+
+@app.route('/admin/links/new', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def new_link():
+    form = LinkForm()
+    if form.validate_on_submit():
+        link = Link(label=form.label.data, url=form.url.data)
+        db.session.add(link)
+        db.session.commit()
+        flash('Link "%s" has been created!' % link.label)
+        return redirect(url_for('admin_dashboard'))
+    else:
+        return render_theme_template('admin/link.html.j2', title='New Link', form=form)
+
+
+@app.route('/admin/links/edit/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def edit_link(id):
+    link = Link.query.filter_by(id=id).first()
+    if link is None:
+        abort(404)
+    form = LinkForm()
+
+    if form.validate_on_submit():
+        link.label = form.label.data
+        link.url = form.url.data
+        db.session.add(link)
+        db.session.commit()
+
+        flash('Link "%s" has been updated!' % link.label)
+        return redirect(url_for('admin_dashboard'))
+    else:
+        form.label.data = link.label
+        form.url.data = link.url
+        return render_theme_template('admin/link.html.j2', title='Edit Link', form=form)
+
+
+@app.route('/admin/links/delete/<int:id>', methods=['POST', 'GET'])
+@login_required
+@admin_required
+def delete_link(id):
+    link = Link.query.filter_by(id=id).first()
+    if link is None:
+        abort(404)
+
+    form = RemovalForm()
+    if form.is_confirmed.data is True:
+        Link.query.filter_by(id=id).delete()
+        db.session.commit()
+
+        flash('Link "%s" has been removed!' % link.label)
+        return redirect(url_for('admin_dashboard'))
+    else:
+        return render_theme_template('admin/delete.html.j2', title='Delete Link',
+                                     obj=link.label, form=form)

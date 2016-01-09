@@ -1,0 +1,22 @@
+{% extends 'default/base.html.j2' %}
+
+{% block content %}
+    <form action="" method="post" name="link">
+        {{ form.hidden_tag() }}
+        <div class="box">
+            <p>
+                {{ form.label(size=20, placeholder='Link Label') }}
+                {% for error in form.label.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.url(size=40, placeholder='Link URL') }}
+                {% for error in form.url.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </p>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

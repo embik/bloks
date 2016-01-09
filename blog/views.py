@@ -1,7 +1,7 @@
 from blog import app, lm, auth
 from blog.forms import LoginForm
 from blog.models import Post, User, Category
-from blog.utils import render_theme_template
+from blog.utils import render_template
 from flask import g, redirect, session, url_for, flash, abort
 from flask.ext.login import current_user, login_required, logout_user
 from sqlalchemy import desc
@@ -26,8 +26,8 @@ def page(id=1):
     if posts:
         title = 'Page %d' % id if id > 1 else None
         categories = Category.query.all()
-        return render_theme_template('page.html.j2', posts=posts, title=title,
-                                     categories=categories)
+        return render_template('page.html.j2', posts=posts, title=title,
+                               categories=categories)
     else:
         abort(404)
 
@@ -36,7 +36,7 @@ def page(id=1):
 def post(slug):
     post = Post.query.filter_by(slug=slug).first()
     if post:
-        return render_theme_template('post.html.j2', title=post.title, post=post)
+        return render_template('post.html.j2', title=post.title, post=post)
     else:
         abort(404)
 
@@ -51,7 +51,7 @@ def login():
         session['remember_me'] = form.remember_me.data
         return auth.try_login(form.username.data, form.password.data)
 
-    return render_theme_template('login.html.j2', form=form, no_wrapper=True)
+    return render_template('login.html.j2', form=form, no_wrapper=True)
 
 
 @app.route('/logout')

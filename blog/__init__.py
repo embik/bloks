@@ -10,6 +10,7 @@ from flask.ext.pagedown import PageDown
 app = Flask(__name__)
 app.config.from_object('blog.config')
 
+# Check for various necessary configuration keys
 assert 'BLOG_TITLE' in app.config, 'No BLOG_TITLE config value found'
 assert 'BLOG_DESCRIPTION' in app.config, 'No BLOG_DESCRIPTION config value found'
 assert 'SECRET_KEY' in app.config, 'No SECRET_KEY config value found'

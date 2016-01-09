@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+        {% if title %}
+            {{ title }} | {{ config ['BLOG_TITLE'] }}
+        {% else %}
+            {{ config['BLOG_TITLE'] }}
+        {% endif %}
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="/static/blog.css">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:900">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <header id="header">
+            <h1><a href="{{ url_for('page') }}">{{ config ['BLOG_TITLE'] }}</a></h1>
+            <nav>
+                <a href="{{ url_for('page') }}">Index</a>
+                {% for link in link_query() %}
+                    <a href="{{ link.url }}">{{ link.label }}</a>
+                {% endfor %}
+            </nav>
+        </header>
+        {% if not no_wrapper %}
+        <div id="wrapper" style="max-width: 50em;">
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+        {% else %}
+            {% block full_content %}{% endblock %}
+        {% endif %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+            <ul id="notifications">
+                {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+        <script src="/static/blog.js"></script>
+    </body>
+</html>

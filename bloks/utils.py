@@ -1,8 +1,8 @@
 import os
 import re
 import markdown
-from blog import app
-from blog.models import Post
+from . import app
+from .models import Post
 from unicodedata import normalize
 from flask import Markup
 from flask import render_template as flask_render_template

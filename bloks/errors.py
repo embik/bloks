@@ -1,5 +1,5 @@
-from blog.utils import render_template
-from blog import app
+from .utils import render_template
+from . import app
 
 
 @app.errorhandler(401)

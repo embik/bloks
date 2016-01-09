@@ -2,7 +2,7 @@ from functools import wraps
 from flask import redirect, flash, url_for, g, abort
 from flask.ext.login import login_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from blog.models import User, Hash
+from .models import User, Hash
 
 
 def try_login(username, password):

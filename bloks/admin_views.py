@@ -1,10 +1,10 @@
 import os
 import re
-from blog import app, db
-from blog.forms import PostForm, UserForm, CategoryForm, RemovalForm, LinkForm
-from blog.models import Post, User, Category, Hash, Link
-from blog.utils import create_slug, render_template, allowed_file
-from blog.auth import create_hash, admin_required
+from . import app, db
+from .forms import PostForm, UserForm, CategoryForm, RemovalForm, LinkForm
+from .models import Post, User, Category, Hash, Link
+from .utils import create_slug, render_template, allowed_file
+from .auth import create_hash, admin_required
 from flask import flash, url_for, redirect, abort, request
 from flask.ext.login import login_required, current_user
 from werkzeug import secure_filename

@@ -1,7 +1,7 @@
 from flask.ext.script import Manager, Command, Option
-from blog.models import User, Hash
-from blog.auth import create_hash
-from blog import db
+from bloks.models import User, Hash
+from bloks.auth import create_hash
+from bloks import db
 
 
 class UserCommand(Command):

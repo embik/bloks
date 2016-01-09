@@ -4,6 +4,7 @@
 
 ## Basic Setup
 
+* Create additional directories `venv/`, `tmp/` and `static/upload/`
 * Run `pyvenv venv/` to setup virtual environment
 * Switch to virtual environment context with `source venv/bin/activate`
 * Install dependencies into virtual environment via `pip3 install -r requirements.txt` and leave virtual environment via `deactivate`

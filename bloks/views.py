@@ -1,7 +1,7 @@
-from blog import app, lm, auth
-from blog.forms import LoginForm
-from blog.models import Post, User, Category
-from blog.utils import render_template
+from . import app, lm, auth
+from .forms import LoginForm
+from .models import Post, User, Category
+from .utils import render_template
 from flask import g, redirect, session, url_for, flash, abort
 from flask.ext.login import current_user, login_required, logout_user
 from sqlalchemy import desc

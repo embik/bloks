@@ -1,8 +1,8 @@
 #!venv/bin/python
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
-from blog import app, db
-from blog.cmd import AddCommand
+from bloks import app, db
+from bloks.cmd import AddCommand
 
 migrate = Migrate(app, db)
 

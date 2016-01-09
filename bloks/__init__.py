@@ -8,7 +8,7 @@ from flask.ext.login import LoginManager
 from flask.ext.pagedown import PageDown
 
 app = Flask(__name__)
-app.config.from_object('blog.config')
+app.config.from_object('bloks.config')
 
 # Check for various necessary configuration keys
 assert 'BLOG_TITLE' in app.config, 'No BLOG_TITLE config value found'
@@ -32,11 +32,11 @@ db = SQLAlchemy(app)
 lm = LoginManager()
 lm.init_app(app)
 
-from blog import utils
-from blog.models import Link
+from . import utils
+from .models import Link
 app.jinja_env.globals.update(render_markdown=utils.render_markdown)
 app.jinja_env.globals.update(join=os.path.join)
 app.jinja_env.globals.update(link_query=Link.query.all)
 
-from blog import views, admin_views, errors, models
+from . import views, admin_views, errors, models
 __all__ = ['views', 'admin_views', 'errors', 'models', ]

@@ -146,6 +146,8 @@ hr {
     flex-direction: row-reverse;
 }
 
+.wrapper-simple { width: calc(100% - 22em) !important; }
+
 #wrapper main { width: 100%; }
 
 #wrapper aside {

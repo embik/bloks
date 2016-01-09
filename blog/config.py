@@ -8,15 +8,11 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 WTF_CSRF_ENABLED = True
 
-if 'BLOG_SECRET_KEY' in os.environ:
-    SECRET_KEY = os.environ['BLOG_SECRET_KEY']
-else:
-    SECRET_KEY = base64.b64encode(os.urandom(24))
+SECRET_KEY = os.environ['BLOKS_SECRET_KEY'] if 'BLOKS_SECRET_KEY' in os.environ\
+    else base64.b64encode(os.urandom(24))
 
-if 'BLOG_LOG_PATH' in os.environ:
-    LOG_PATH = os.environ['BLOG_LOG_PATH']
-else:
-    LOG_PATH = os.path.join(basedir, 'tmp', 'blog.log')
+LOG_PATH = os.environ['BLOKS_LOG_PATH'] if 'BLOKS_LOG_PATH' in os.environ\
+    else os.path.join(basedir, 'tmp', 'blog.log')
 
 BLOG_TITLE = 'example blog'
 BLOG_DESCRIPTION = 'This is an example blog. It\'s authored by someone.'
@@ -27,4 +23,4 @@ ADMIN_POSTS_PER_PAGE = 20
 
 UPLOAD_DIR = os.path.join(basedir, 'static', 'upload')
 UPLOAD_DIR_URL = '/static/upload/'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+UPLOAD_ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])

@@ -4,7 +4,8 @@ import markdown
 from blog import app
 from blog.models import Post
 from unicodedata import normalize
-from flask import Markup, render_template
+from flask import Markup
+from flask import render_template as flask_render_template
 
 REGEX = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -37,14 +38,14 @@ def render_markdown(content):
     return Markup(markdown.markdown(content))
 
 
-def render_theme_template(template_file, **context):
+def render_template(template_file, **context):
     if 'BLOG_THEME' in app.config:
-        return render_template(os.path.join(app.config['BLOG_THEME'], template_file),
-                               **context)
+        return flask_render_template(os.path.join(app.config['BLOG_THEME'], template_file),
+                                     **context)
     else:
-        return render_template(os.path.join('default', template_file), **context)
+        return flask_render_template(os.path.join('default', template_file), **context)
 
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+           filename.rsplit('.', 1)[1] in app.config['UPLOAD_ALLOWED_EXTENSIONS']

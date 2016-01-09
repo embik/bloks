@@ -16,11 +16,8 @@ assert 'SECRET_KEY' in app.config, 'No SECRET_KEY config value found'
 assert 'LOG_PATH' in app.config, 'No LOG_PATH config value found'
 
 # Initialize logging handler
-handler = RotatingFileHandler(app.config['LOG_PATH'],
-                              maxBytes=1000, backupCount=1)
-handler.setFormatter(Formatter(
-    '%(asctime)s %(levelname)s: %(message)s'
-))
+handler = RotatingFileHandler(app.config['LOG_PATH'], maxBytes=1000, backupCount=1)
+handler.setFormatter(Formatter('%(asctime)s %(levelname)s: %(message)s'))
 handler.setLevel(logging.INFO)
 app.logger.addHandler(handler)
 

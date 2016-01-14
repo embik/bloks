@@ -1,0 +1,103 @@
+#!/bin/bash
+
+check_dependencies() {
+    echo -n "Checking if python3 is installed... "
+    if hash python3 2>/dev/null; then
+        echo "(success)"
+    else
+        echo "(failed)"
+        return 1
+    fi
+
+    echo -n "Checking if pyvenv is installed... "
+    if hash pyvenv 2>/dev/null; then
+        echo "(success)"
+    else
+        echo "(failed)"
+        return 1
+    fi
+
+    echo -n "Checking if pip is installed... "
+    if hash pip 2>/dev/null; then
+        echo "(success)"
+    else
+        echo "(failed)"
+    fi
+}
+
+setup_folders() {
+    echo -n "Setting up folders... "
+
+    mkdir venv &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    mkdir tmp &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    mkdir -p static/upload &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    echo "(success)"
+}
+
+setup_environment() {
+    echo -n "Setting up virtual environment... "
+
+    pyvenv venv/ &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    source venv/bin/activate &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    pip install -r requirements.txt &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    deactivate
+    echo "(success)"
+}
+
+setup_database() {
+    echo -n "Setting up SQLAlchemy database... "
+    ./manage.py db init &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    ./manage.py db migrate &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    ./manage.py db upgrade &>/dev/null
+    if [ $? != 0 ]; then
+        echo "(failed)"
+        return 1
+    fi
+
+    echo "(success)"
+}
+
+check_dependencies
+setup_folders
+setup_environment
+setup_database
